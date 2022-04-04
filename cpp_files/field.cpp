@@ -1,28 +1,20 @@
 #include <iostream>
-#include "field.h"
-#include "interface.h"
+#include "../headers/field.h"
+#include "../headers/interface.h"
 
 void Field::PlaceShip(int size) {
   int n1 = 0, ch1 = 0, n2 = 0, ch2 = 0;
-  unsuccessful_attempt:
-  GetCell(ch1, n1);
-  GetCell(ch2, n2);
-  if ((n1 != n2 && ch1 != ch2) || n1 < 1 || n2 < 1 || ch1 < 1 || ch2 < 1 || n1 > 10 || n2 > 10 || ch1 > 10 || ch2 > 10
-      || std::max(std::abs(n1 - n2), std::abs(ch1 - ch2)) != size - 1) {
-    std::cout << "wrong coordinates, try again\n";
-    goto unsuccessful_attempt;
+  while (true) {
+    GetCell(ch1, n1);
+    GetCell(ch2, n2);
+    if (CorrectPlacement(n1, ch1, n2, ch2, size)) {
+      break;
+    }
+    Message("choose another cell");
   }
   if (n1 > n2 || ch1 > ch2) {
     std::swap(n1, n2);
     std::swap(ch1, ch2);
-  }
-  for (int i = n1 - 1; i <= n2 + 1; ++i) {
-    for (int j = ch1 - 1; j <= ch2 + 1; ++j) {
-      if (field_[i][j] != 0) {
-        std::cout << "wrong place, try again\n";
-        goto unsuccessful_attempt;
-      }
-    }
   }
   for (int i = n1; i <= n2; ++i) {
     field_[i][ch1] = 2;
@@ -34,22 +26,22 @@ void Field::PlaceShip(int size) {
 
 void Field::PlaceAllShips() {
   PrintField(*this, true);
-  std::cout << "place ship with length 4\n";
+  Message("place ship with length 4");
   PlaceShip(4);
   PrintField(*this, true);
   for (int i = 0; i < 2; ++i) {
-    std::cout << "place ship with length 3\n";
+    Message("place ship with length 3");
     PlaceShip(3);
     PrintField(*this, true);
   }
   for (int i = 0; i < 3; ++i) {
-    std::cout << "place ship with length 2\n";
+    Message("place ship with length 2");
     PlaceShip(2);
     PrintField(*this, true);
   }
   for (int i = 0; i < 4; ++i) {
-    PrintField(*this,true);
-    std::cout << "place ship with length 1\n";
+    PrintField(*this, true);
+    Message("place ship with length 1");
     PlaceShip(1);
   }
   PrintField(*this, true);
@@ -134,4 +126,33 @@ bool Field::IsDestroyed(int n, int ch) {
     cnt++;
   }
   return is_destroyed;
+}
+
+bool Field::IsShotCorrect(int n, int ch) {
+  if (ch > 10 || n > 10 || ch < 0 || n < 0) {
+    return false;
+  }
+  if (field_[n][ch] == 3 || field_[n][ch] == 1) {
+    return false;
+  }
+  return true;
+}
+
+bool Field::CorrectPlacement(int n1, int ch1, int n2, int ch2, int size) {
+  if ((n1 != n2 && ch1 != ch2) || n1 < 1 || n2 < 1 || ch1 < 1 || ch2 < 1 || n1 > 10 || n2 > 10 || ch1 > 10 || ch2 > 10
+      || std::max(std::abs(n1 - n2), std::abs(ch1 - ch2)) != size - 1) {
+    return false;
+  }
+  if (n1 > n2 || ch1 > ch2) {
+    std::swap(n1, n2);
+    std::swap(ch1, ch2);
+  }
+  for (int i = n1 - 1; i <= n2 + 1; ++i) {
+    for (int j = ch1 - 1; j <= ch2 + 1; ++j) {
+      if (field_[i][j] != 0) {
+        return false;
+      }
+    }
+  }
+  return true;
 }

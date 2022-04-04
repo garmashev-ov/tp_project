@@ -3,6 +3,10 @@
 
 void GetCell(int &ch, int &n);
 
+void Message(const char *msg);
+
+void ClearScreen();
+
 void PrintField(Field &f, bool show_ships);
 
 #endif

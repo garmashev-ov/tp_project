@@ -6,9 +6,9 @@ int main() {
   Field player1;
   Field player2;
   player1.PlaceAllShips();
-  system ("cls");
+  ClearScreen();
   player2.PlaceAllShips();
-  system ("cls");
+  ClearScreen();
   Game(player1, player2);
 }
 
@@ -18,23 +18,24 @@ void Game(Field &pl1, Field &pl2) {
   bool pl1_shoots = true;
   while (pl1_ships_alive != 0 && pl2_ships_alive != 0) {
     Field &attacked = pl1_shoots? pl2 : pl1;
-    std::cout << (pl1_shoots ? "first player shoots\n" : "second player shoots\n");
+    if (pl1_shoots) {
+      Message("first player shoots");
+    } else {
+      Message("second player shoots");
+    }
     PrintField(attacked, false);
     int n = 0;
     int ch = 0;
-    incorrect_input:
-    GetCell(ch, n);
-    if (ch > 10 || n > 10 || ch < 0 || n < 0) {
-      std::cout << "incorrect input\n";
-      goto incorrect_input;
-    }
-    if (attacked.field_[n][ch] == 3 || attacked.field_[n][ch] == 1) {
-      std::cout << "choose another cell\n";
-      goto incorrect_input;
+    while (true) {
+      GetCell(ch, n);
+      if (attacked.IsShotCorrect(n, ch)) {
+        break;
+      }
+      Message("choose another cell");
     }
     if (attacked.field_[n][ch] == 0) {
       attacked.field_[n][ch] = 1;
-      std::cout << "you missed\n";
+      Message("you missed");
       if (pl1_shoots) {
         pl1_shoots = false;
       } else {
@@ -44,10 +45,10 @@ void Game(Field &pl1, Field &pl2) {
     }
     attacked.field_[n][ch] = 3;
     if (attacked.IsDestroyed(n, ch)) {
-      std::cout << "ship destroyed\n";
+      Message("ship destroyed");
       attacked.MarkNearbyCells(n, ch);
     } else {
-      std::cout << "ship is hit\n";
+      Message("ship was hit");
     }
     if (pl1_shoots) {
       --pl2_ships_alive;

@@ -12,6 +12,10 @@ class Field {
 
   void MarkNearbyCells(int n, int ch);
 
+  bool IsShotCorrect(int n, int ch);
+
+  bool CorrectPlacement(int n1, int ch1, int n2, int ch2, int size);
+
   void PlaceShip(int size);
 
   void PlaceAllShips();

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "field.h"
-#include "interface.h"
+#include "../headers/field.h"
+#include "../headers/interface.h"
 
 void GetCell(int &ch, int &n) {
   std::string command;
@@ -54,3 +54,12 @@ void PrintField(Field &f, bool show_ships) {
     std::cout << '\n';
   }
 }
+
+void Message(const char *msg) {
+  std::cout << msg << '\n';
+}
+
+void ClearScreen() {
+  system("cls");
+}
+
