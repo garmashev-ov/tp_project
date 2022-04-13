@@ -1,51 +1,5 @@
 #include <iostream>
 #include "../headers/field.h"
-#include "../headers/interface.h"
-
-void Field::PlaceShip(int size) {
-  int n1 = 0, ch1 = 0, n2 = 0, ch2 = 0;
-  while (true) {
-    GetCell(ch1, n1);
-    GetCell(ch2, n2);
-    if (CorrectPlacement(n1, ch1, n2, ch2, size)) {
-      break;
-    }
-    Message("choose another cell");
-  }
-  if (n1 > n2 || ch1 > ch2) {
-    std::swap(n1, n2);
-    std::swap(ch1, ch2);
-  }
-  for (int i = n1; i <= n2; ++i) {
-    field_[i][ch1] = 2;
-  }
-  for (int i = ch1; i <= ch2; ++i) {
-    field_[n1][i] = 2;
-  }
-}
-
-void Field::PlaceAllShips() {
-  PrintField(*this, true);
-  Message("place ship with length 4");
-  PlaceShip(4);
-  PrintField(*this, true);
-  for (int i = 0; i < 2; ++i) {
-    Message("place ship with length 3");
-    PlaceShip(3);
-    PrintField(*this, true);
-  }
-  for (int i = 0; i < 3; ++i) {
-    Message("place ship with length 2");
-    PlaceShip(2);
-    PrintField(*this, true);
-  }
-  for (int i = 0; i < 4; ++i) {
-    PrintField(*this, true);
-    Message("place ship with length 1");
-    PlaceShip(1);
-  }
-  PrintField(*this, true);
-}
 
 void Field::MarkNearbyCells(int n, int ch) {
   bool vertical_ship = false;
