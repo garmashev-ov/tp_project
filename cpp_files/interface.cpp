@@ -60,6 +60,10 @@ void Message(const char *msg) {
 }
 
 void ClearScreen() {
-  system("cls");
+  #ifdef __linux
+    system("clear");
+  #elif defined _WIN32
+    system("cls");
+  #endif
 }
 
