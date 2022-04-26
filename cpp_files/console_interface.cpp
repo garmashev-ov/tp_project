@@ -1,8 +1,7 @@
 #include <iostream>
-#include "../headers/field.h"
-#include "../headers/interface.h"
+#include "../headers/console_interface.h"
 
-void GetCell(int &ch, int &n) {
+void ConsoleInterface::GetCell(int &ch, int &n) {
   std::string command;
   std::cin >> command;
   for (int i = 0; i < command.size(); ++i) {
@@ -22,7 +21,7 @@ void GetCell(int &ch, int &n) {
   }
 }
 
-void PrintField(Field &f, bool show_ships) {
+void ConsoleInterface::PrintField(Field &f, bool show_ships) {
   char coord[11] = "abcdefghij";
   std::cout << "   ";
   for (int i = 0; i < 10; ++i) {
@@ -55,15 +54,11 @@ void PrintField(Field &f, bool show_ships) {
   }
 }
 
-void Message(const char *msg) {
+void ConsoleInterface::Message(const char *msg) {
   std::cout << msg << '\n';
 }
 
-void ClearScreen() {
-  #ifdef __linux
-    system("clear");
-  #elif defined _WIN32
-    system("cls");
-  #endif
+void ConsoleInterface::ClearScreen() {
+  system("cls");
 }
 
