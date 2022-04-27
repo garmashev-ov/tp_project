@@ -8,5 +8,6 @@ class AbstractInterface {
   virtual void Message(const char *msg) = 0;
   virtual void ClearScreen() = 0;
   virtual void PrintField(Field &f, bool show_ships) = 0;
+  virtual bool AskYesNo() = 0;
 };
 #endif

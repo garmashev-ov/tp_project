@@ -10,5 +10,6 @@ class Game {
   void PlayGame();
   void PlaceAllShips(Field &field);
   void PlaceShip(Field &field, int size);
+  void RandomPlacement(int player);
 };
 #endif

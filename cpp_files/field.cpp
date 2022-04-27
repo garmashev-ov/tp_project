@@ -83,7 +83,7 @@ bool Field::IsDestroyed(int n, int ch) {
 }
 
 bool Field::IsShotCorrect(int n, int ch) {
-  if (ch > 10 || n > 10 || ch < 0 || n < 0) {
+  if (ch > 10 || n > 10 || ch <= 0 || n <= 0) {
     return false;
   }
   if (field_[n][ch] == 3 || field_[n][ch] == 1) {
@@ -109,4 +109,12 @@ bool Field::CorrectPlacement(int n1, int ch1, int n2, int ch2, int size) {
     }
   }
   return true;
+}
+
+void Field::ClearField() {
+  for (int i = 0; i < 12; ++i) {
+    for (int j = 0; j < 12; ++j) {
+      field_[i][j] = 0;
+    }
+  }
 }
