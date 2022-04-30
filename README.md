@@ -1,8 +1,8 @@
 # Игра Морской бой
 
 ## Как запускать?
-./install.sh  
-./BattleShip  
+sudo apt install ./package.deb  
+BattleShip  
 		
 ## Описание
 В эту игру можно играть вдвоем на 1 устройстве.
