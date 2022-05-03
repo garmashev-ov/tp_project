@@ -8,6 +8,7 @@ class ConsoleInterface : public AbstractInterface {
   void Message(const char *msg) override;
   void ClearScreen() override;
   void PrintField(Field &f, bool show_ships) override;
+  bool AskYesNo() override;
 };
 
 #endif

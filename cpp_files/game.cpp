@@ -95,3 +95,46 @@ void Game::PlaceShip(Field &field, int size) {
     field.field_[n1][i] = 2;
   }
 }
+
+void Game::RandomPlacement(int player) {
+  Field &field = (player == 1)? player1_ : player2_;
+  for (int size = 4; size >= 1; --size) {
+    for (int i = 0; i <= 4 - size; ++i) {
+      int n1 = 0, n2 = 0, ch1 = 0, ch2 = 0;
+      n1 = 1 + (rand() % 10);
+      ch1 = 1 + (rand() % 10);
+      switch (rand() % 4) {
+        case 0:
+          n2 = n1 + size - 1;
+          ch2 = ch1;
+          break;
+        case 1:
+          n2 = n1 - size + 1;
+          ch2 = ch1;
+          break;
+        case 2:
+          ch2 = ch1 + size - 1;
+          n2 = n1;
+          break;
+        case 3:
+          ch2 = ch1 - size + 1;
+          n2 = n1;
+          break;
+      }
+      if (field.CorrectPlacement(n1, ch1, n2, ch2, size)) {
+        if (n1 > n2 || ch1 > ch2) {
+          std::swap(n1, n2);
+          std::swap(ch1, ch2);
+        }
+        for (int j = n1; j <= n2; ++j) {
+          field.field_[j][ch1] = 2;
+        }
+        for (int j = ch1; j <= ch2; ++j) {
+          field.field_[n1][j] = 2;
+        }
+      } else {
+        --i;
+      }
+    }
+  }
+}

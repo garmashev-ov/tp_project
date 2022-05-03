@@ -3,4 +3,6 @@ project(TP)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(TP cpp_files/main.cpp)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+add_executable(BattleShip cpp_files/main.cpp)
